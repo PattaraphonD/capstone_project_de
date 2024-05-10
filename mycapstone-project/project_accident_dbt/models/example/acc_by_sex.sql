@@ -1,10 +1,12 @@
+-- acc_by_sex
 SELECT
-    psn_sex,
-    COUNT(acc_case_id) AS death_count
-FROM {{ ref('view_accident_obt')}} 
+    case_province AS province,
+    EXTRACT(YEAR FROM actual_dead_date) AS year,
+    COUNT(acc_case_id) AS accident_count
+FROM  {{ ref('view_accident_obt')}} 
 GROUP BY
-    psn_sex
-
-
-
+    case_province,
+    year
+ORDER BY
+    province
     

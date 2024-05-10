@@ -1,3 +1,4 @@
+--acc_prov_rank
 SELECT
     case_province AS province,
     EXTRACT(YEAR FROM actual_dead_date) AS year,
@@ -7,8 +8,4 @@ GROUP BY
     case_province,
     year
 ORDER BY
-    province
-
-
-
-    
+    province  
