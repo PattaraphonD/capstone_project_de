@@ -1,0 +1,14 @@
+project_accident_dbt:
+  outputs:
+    dev:
+      dataset: project_accident
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /workspaces/capstone_project_de/credentials/stalwart-summer-413911-471551b9d6d5.json
+      location: asia-southeast1
+      method: service-account
+      priority: interactive
+      project: stalwart-summer-413911
+      threads: 4
+      type: bigquery
+  target: dev

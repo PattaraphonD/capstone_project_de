@@ -124,7 +124,7 @@ with DAG(
         task_id='load_to_bq',
         bucket='swu-ds525-8888',
         source_objects=['RoadAccident_{{ execution_date.strftime("%Y-%m-%d") }}*.csv'],  # Use wildcard pattern
-        destination_project_dataset_table='stalwart-summer-413911.project_accident.accident_case_obt',
+        destination_project_dataset_table='stalwart-summer-413911.project_accident.accident_case_full',
         source_format='CSV',
         create_disposition='CREATE_IF_NEEDED',
         write_disposition='WRITE_TRUNCATE',  # Options: WRITE_TRUNCATE, WRITE_APPEND, WRITE_EMPTY
@@ -135,14 +135,14 @@ with DAG(
     follow_create_dataset = EmptyOperator(task_id='follow_create_dataset')
 
     table_prep_sql = f"""
-    ALTER TABLE `project_accident.accident_case_obt`
+    ALTER TABLE `project_accident.accident_case_full`
     DROP COLUMN _id,
     DROP COLUMN Dead_Year___________________________________________,
     DROP COLUMN Date_Rec,
     DROP COLUMN Risk_Helmet,
     DROP COLUMN Risk_Safety_Belt;
 
-    ALTER TABLE `project_accident.accident_case_obt`
+    ALTER TABLE `project_accident.accident_case_full`
     RENAME COLUMN Dead_Conso_Id TO acc_case_id,
     RENAME COLUMN DEAD_YEAR TO psn_dead_year,
     RENAME COLUMN Age TO psn_age,
@@ -159,38 +159,38 @@ with DAG(
     RENAME COLUMN Acc_La TO case_lat,
     RENAME COLUMN Acclong TO case_long,
     RENAME COLUMN Ncause TO icd_code,
-    RENAME COLUMN Vehicle_Merge_Final TO case_vehicle;
+    RENAME COLUMN Vehicle_Merge_Final TO vehicle_name;
 
-    CREATE OR REPLACE TABLE `project_accident.accident_case_obt_with_id` AS
+    CREATE OR REPLACE TABLE `project_accident.accident_case_full_with_id` AS
     SELECT *,
        CAST(ROW_NUMBER() OVER(ORDER BY acc_case_id) AS STRING) AS personal_id
-    FROM `project_accident.accident_case_obt`;
+    FROM `project_accident.accident_case_full`;
 
-    DROP TABLE `project_accident.accident_case_obt`;
+    DROP TABLE `project_accident.accident_case_full`;
 
-    ALTER TABLE `project_accident.accident_case_obt_with_id`
-    RENAME TO `accident_case_obt`;
+    ALTER TABLE `project_accident.accident_case_full_with_id`
+    RENAME TO `accident_case_full`;
     """
+
     create_case_sql = f"""
     CREATE TABLE `project_accident.case_info`
     PARTITION BY DATE(actual_dead_date)
     AS (
-    SELECT 
-        acc_case_id, 
-        actual_dead_date, 
-        case_time, 
-        case_tumbol, 
-        case_district, 
-        case_province,
-        case_lat,
-        case_long,
-        icd_code,
-        case_vehicle,
-        personal_id
-    FROM `project_accident.accident_case_obt`
+        SELECT 
+            acc_case_id, 
+            actual_dead_date, 
+            case_time, 
+            case_tumbol, 
+            case_district, 
+            case_province,
+            case_lat,
+            case_long,
+            icd_code,
+            personal_id,
+        FROM `project_accident.accident_case_full`
     );
     """
-
+    
     create_person_sql = f"""
     CREATE OR REPLACE TABLE `project_accident.personal_info`
     PARTITION BY RANGE_BUCKET(psn_dead_year, GENERATE_ARRAY(2000, 2050, 1))
@@ -204,7 +204,17 @@ with DAG(
             psn_tumbol, 
             psn_district,
             psn_province,
-        FROM `project_accident.accident_case_obt`
+        FROM `project_accident.accident_case_full`
+    );
+    """
+
+    create_vehicle_sql = f"""
+    CREATE OR REPLACE TABLE `project_accident.vehicle_info`
+    AS (
+        SELECT 
+            icd_code,
+            vehicle_name, 
+        FROM `project_accident.accident_case_full`
     );
     """
 
@@ -232,4 +242,12 @@ with DAG(
         dag=dag,
     )
 
-    start >> get_files_api >> upload_to_gcs >> [create_bq_raw_dataset, create_bq_dataset] >> follow_create_dataset >> [load_to_bq, load_raw_to_bq] >> table_prep >> [create_case_table, create_person_table] >> end
+    create_vehicle_table = BigQueryExecuteQueryOperator(
+        task_id='create_vehicle_table',
+        sql=create_vehicle_sql,
+        use_legacy_sql=False,
+        gcp_conn_id='my_gcp_conn',
+        dag=dag,
+    )
+
+    start >> get_files_api >> upload_to_gcs >> [create_bq_raw_dataset, create_bq_dataset] >> follow_create_dataset >> [load_to_bq, load_raw_to_bq] >> table_prep >> [create_case_table, create_person_table, create_vehicle_table] >> end
