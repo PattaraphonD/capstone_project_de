@@ -91,7 +91,7 @@ Data model มีองค์ประกอบ ดังนี้
 
 
 ## 5. Visualization
-![alt text](Visualization.jpg)
+![alt text](visualization.jpg)
 
 **Analytics result (ผลการวิเคราะห์)**
 - จังหวัดที่มีอัตราการเกิดอุบัติเหตุสูงสุดต่อวัน 3 อันดับแรกได้แก่
@@ -149,14 +149,12 @@ $ python -m venv ENV
 ```sh
 $ source ENV/bin/activate
 ```
-![alt text](Archive/pic1.png)
 
 
 ## 2. Cloud Storage
 2.1 สร้าง  New project
 
 
-![alt text](Archive/image/pic2.png)
 * ไปที่หน้าเว็บ Google cloud platform (GCP) สร้าง New project   → “mycapstone”
 
 
@@ -168,27 +166,21 @@ $ source ENV/bin/activate
 
 * กด create
 
-![alt text](Archive/image/pic3.jpg)
 
 * ใส่ชื่อ bucket ชื่อ ” ds525_data_capstone”
 
-![alt text](Archive/image/pic4.jpg)
 
-![alt text](Archive/image/pic5.jpg)
 
 2.3 สร้าง key ในการใช้งานเพื่อเชื่อมต่อ  Google cloud platform (GCP)  กับ Airflow
 กด IAM & Admin → เลือก  service account  → create service account
 
-![alt text](Archive/image/pic7.png)
 
 * หน้าเมื่อสร้าง service account เสร็จ
 
-![alt text](Archive/image/pic8.png)
 
 
 * เมื่อสร้าง service account เสร็จให้ทำการเลือก service account ที่สร้าง → กดเลือก KEYS → ADD KEY → เลือก .json file → จะได้ keys file ที่เป็น json มาเก็บไว้ที่เครื่อง
 
-![alt text](Archive/image/pic9.png)
 
 * ทำการสร้าง folder credentials ใน github codespace เพื่อ upload file keys json ไปไว้ แต่ให้นำชื่อ folder credentials ไปใส่ใน file .gitignore เพื่อป้องกัน keys ของเราถูกในภายนอกนำไปใช้ 
 
@@ -206,22 +198,18 @@ $ docker compose up
 * กด open in Browser 8080
 
 
-![alt text](Archive/image/pic10.png)
 
 * เมื่อเปิด browser  จะแสดงหน้าให้ login เข้าสู่ระบบ
 
 
-![alt text](Archive/image/pic11.png)
 
 * เมื่อ login เรียบร้อยจะเข้าสู่หน้าการใช้งาน Airflow
 
 
-![alt text](Archive/image/pic12.png)
 
 * หน้า Airflow → เลือก Admin → Connections → สร้าง Connection → project id ใช้จาก GCP
 
 
-![alt text](Archive/image/pic13.png)
 
 3.3 Data pipeline โดยใช้ airflow ในการ Automated
 
