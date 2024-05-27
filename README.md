@@ -67,13 +67,13 @@ Data model มีองค์ประกอบ ดังนี้
 
 ### Data Model for Dashboard
 
-![alt text](Archive/image/aa.jpg)
+![alt text](aa.jpg)
 
 * accident_case_obt (ข้อมูลการเกิดเหตุเต็มรูปแบบ): เก็บข้อมูลทั้งหมดเกี่ยวกับเคสอุบัติเหตุและข้อมูลผู้เสียชีวิต
 หมายเหตุ : สำหรับ accident_case_obt คือ One Big Table (OBT) สำหรับ Dashboard
 
 ## 4. Data Pipeline
-![alt text](Archive/data_pipeline.png)
+![alt text](data_pipeline.png)
 **1) การเก็บรวบรวมข้อมูล (Data Ingestion):** Raw Data จากเว็บไซต์ data.go.th ด้วย API ดึงเข้าสู่ระบบคลาวด์สตอเรจ ในที่นี้คือ Google Cloud Storage เพื่อเก็บไฟล์ไว้ในรูปแบบ CSV file โดยกำหนดให้ไฟล์ที่ถูกดึงมาจาก API ประกอบด้วยชื่อไฟล์ และวันที่ทำการดึงข้อมูล ซึ่งทางกลุ่มได้ทำการ Automate ขั้นตอนนี้ด้วย Airflow
 * สาเหตุที่ทางกลุ่มเลือกใช้ API เนื่องจากเป็นการช่วยให้ Workflow สามารถ Automate ได้ง่ายขึ้นไม่ต้องทำการ Download ข้อมูลที่จะสร้างความซับซ้อนให้แก่กระบวนการทำงานแบบอัตโนมัติ
 
