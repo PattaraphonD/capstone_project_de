@@ -491,13 +491,6 @@ visualization [link](https://lookerstudio.google.com/reporting/d6e96e3c-c20d-4e2
 docker compose down
 ```
 
-### Presentation
-
-
-* Slide Presentation [link](https://www.canva.com/design/DAGEvSRux_g/S5g79wHNLPAYYSKkrT8_MA/edit)
-* VDO Presentation [link](https://www.youtube.com/watch?v=rXSy3r408_w)
-
-
 
 
 
