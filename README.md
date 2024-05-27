@@ -67,7 +67,6 @@ Data model มีองค์ประกอบ ดังนี้
 
 ### Data Model for Dashboard
 
-![alt text](aa.jpg)
 
 * accident_case_obt (ข้อมูลการเกิดเหตุเต็มรูปแบบ): เก็บข้อมูลทั้งหมดเกี่ยวกับเคสอุบัติเหตุและข้อมูลผู้เสียชีวิต
 หมายเหตุ : สำหรับ accident_case_obt คือ One Big Table (OBT) สำหรับ Dashboard
@@ -92,7 +91,7 @@ Data model มีองค์ประกอบ ดังนี้
 
 
 ## 5. Visualization
-![alt text](Archive/image/pic24.jpg)
+![alt text](Visualization.jpg)
 
 **Analytics result (ผลการวิเคราะห์)**
 - จังหวัดที่มีอัตราการเกิดอุบัติเหตุสูงสุดต่อวัน 3 อันดับแรกได้แก่
