@@ -23,7 +23,7 @@ Data.go.th หรือ ศูนย์กลางข้อมูลภาค�
 
 
 ## 3. Data model
-![alt text](Archive/image/data_model.jpg)
+![alt text](data_model.jpg)
 
 
 
