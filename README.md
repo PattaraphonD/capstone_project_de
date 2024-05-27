@@ -91,7 +91,7 @@ Data model มีองค์ประกอบ ดังนี้
 
 
 ## 5. Visualization
-![alt text](visualization.jpg)
+![alt text](Visualization.png)
 
 **Analytics result (ผลการวิเคราะห์)**
 - จังหวัดที่มีอัตราการเกิดอุบัติเหตุสูงสุดต่อวัน 3 อันดับแรกได้แก่
