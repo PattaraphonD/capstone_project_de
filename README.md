@@ -1,5 +1,4 @@
 # SWU DS525 - Capstone Project
-![alt text](Archive/header.jpg) 
 
 จากการสำรวจสถิติการเกิดอุบัติเหตุบนถนนขององค์การอนามัยโลกในปี 2561 ประเทศไทยถูกจัดให้เป็นประเทศที่มีอัตราการเกิดอุบัติเหตุบนถนนสูงสุดเป็นอันดับที่ 9 ของโลก โดยไทยมีความพยายามในการลดอุบัติเหตุด้วยวิธีต่างๆอย่างต่อเนื่อง โดยเน้นที่การแก้ไขโครงสร้างพื้นฐาน ระบบโลจิสติกส์ และดิจิทัล เพื่อให้สามารถลดอัตราการเกิดอุบัติเหตุบนถนนภายในระยะเวลา 3 ปีข้างหน้าหรือปี พ.ศ. 2570
 ดังนั้น บทบาทของเรา คือ วิเคราะห์ข้อมูลเพื่อหาแนวทางในการแก้ไขปัญหาและมุ่งหวังเป็นส่วนหนึ่งในการช่วยลดอุบัติเหตุบนท้องถนนในประเทศไทย
@@ -236,46 +235,37 @@ $ docker compose up
 
 * Get file
 
-![alt text](Archive/pic13.png)
 
 * Creating DAG to automate workflow with Airflow 
 
-![alt text](Archive/pic14.png)
 
 * Upload file to google cloud storage (GCS)
 
 
-![alt text](Archive/pic15.png)
 
 * Create bigquery  dataset
 
 
-![alt text](Archive/pic16.png)
 
 * Load data to bigquery
 
 
-![alt text](Archive/pic17.png)
 
 * Create table prep
 
 
-![alt text](Archive/pic18.png)
 
 * Create table case_info
 
 
-![alt text](Archive/pic19.png)
 
 * Create table personal_info
 
 
-![alt text](Archive/pic20.png)
 
 * Create table vehicle_info
 
 
-![alt text](Archive/image/pic14.png)
 
 * Setting workflow
 
@@ -289,7 +279,6 @@ start >> get_files_api >> upload_to_gcs >> [create_bq_raw_dataset, create_bq_dat
 * เมื่อทำการ run บน airflow ผ่าน flow task จะแสดงเป็นสีเขียวทั้งหมด
 
 
-![alt text](Archive/pic47.png)
 
 3.4 เมื่อรัน Airflow แบบ Automated เสร็จ
 
@@ -299,34 +288,28 @@ start >> get_files_api >> upload_to_gcs >> [create_bq_raw_dataset, create_bq_dat
 * แบ่ง dataset 2 คือ  project_accident เพื่อเก็บข้อมูลที่ต้องการ transform และ project_accident_raw เพื่อเก็บข้อมูล raw data เนื่องจากเพื่อป้องกันการเปลี่ยนแปลงข้อมูลในตัวข้อมูล raw 
 
 
-![alt text](Archive/image/pic15.png)
 
 * Dataset : project_accident จะมี 3 table คือ accident_case_full , case_info , personal_info , vehicle_info
 
 
-![alt text](Archive/pic48.png)
 
 
 * Table : accident_case_full
 
 
-![alt text](Archive/pic49.png)
 
 * Table : Case_info  (partitioned table) ทำ partition ด้วย column actual_dead_date
 
 
-![alt text](Archive/pic50.png)
 
 
 * Table : Personal_info (partitioned table) ทำ partition ด้วย column psn_dead_year
 
 
-![alt text](Archive/pic51.png)
 
 * Table : vehicle_info 
 
 
-![alt text](Archive/pic52.png)
 
 
 ## 4. Data Transformation (DBT)
@@ -336,7 +319,6 @@ start >> get_files_api >> upload_to_gcs >> [create_bq_raw_dataset, create_bq_dat
 $ pip install dbt-core dbt-bigquery
 ```
 
-![alt text](Archive/image/pic16.png)
 
 4.2 สร้าง project ในการทำ dbt
 ```sh
@@ -344,7 +326,6 @@ $ dbt init
 ```
 * เมื่อสร้าง project เสร็จจะมี folder capstoneproject สร้างขึ้นมา
 
-![alt text](Archive/image/pic17.png)
 
 4.3 สร้าง file profile.yml เก็บใน folder capstoneproject
 ```sh
@@ -355,7 +336,6 @@ code /home/codespace/.dbt/profiles.yml
 * เมื่อรัน code เสร็จจะมี file profile.yml - dbt ขึ้นมาให้ copy ข้อมูลข้างใน file ไปใส่ใน folder project_accident – > create file profile.yml แล้วข้อมูลนำไปใส่
 
 
-![alt text](Archive/image/pic18.png)
 
 4.4 ทำการ Check connection ว่า dbt ถูกเชื่อมต่อกับ google bigquery  → เมื่อทำการเชื่อมต่อสำเร็จจะขึ้น All checked passed!
 
@@ -363,7 +343,6 @@ code /home/codespace/.dbt/profiles.yml
 ```sh
 $ dbt debug
 ```
-![alt text](Archive/image/pic19.png)
 
 4.5 ทำการ create layer เพื่อ transform ข้อมูล
 
@@ -377,15 +356,12 @@ $ dbt debug
 * Folder : staging ทำการแบ่ง staging ออกเป็น 3 ตาราง
 1) File : stg__case_info.sql
 
-![alt text](Archive/image/pic35.png)
 
 2) File : stg__personal_info.sql
 
-![alt text](Archive/image/pic36.png)
 
 2) File : stg__vehicle_info.sql
 
-![alt text](Archive/image/pic37.png)
 
 * Folder : view  ทำการสร้าง view เพื่อตอบปัญหา โดยแบ่งออกเป็น view 6 ตารางดังนี้
 
@@ -394,36 +370,30 @@ $ dbt debug
 หลังจากที่ได้ทำการ Transform และสร้างตารางผ่าน Bigquery ในขั้นตอนก่อนหน้าแล้ว เราจะทำการสร้าง view_accident_obt (One Big Table) เพื่อเป็น Data Model ใน Reporting layer โดยอ้างอิงจากตาราง accident_case_full
 
 
-![alt text](Archive/image/pic20.png)
 
 2) File : acc_by_age.sql
 
 
-![alt text](Archive/image/pic28.png)
 
 
 3) File : acc_by_province.sql
 
 
-![alt text](Archive/image/pic29.png)
 
 
 4) File : acc_by_seasons.sql
 
 
-![alt text](Archive/image/pic30.png)
 
 
 5) acc_by_sex.sql
 
 
-![alt text](Archive/image/pic31.png)
 
 
 6) acc_by_vehicle.sql
 
 
-![alt text](Archive/image/pic33.png)
 
 
 
@@ -433,7 +403,6 @@ $ dbt test
 ```
 
 
-![alt text](Archive/image/pic21.png)
 
 
 4.5.3 ทำการ run dbt 
@@ -442,11 +411,8 @@ $ dbt run
 ```
 
 
-![alt text](Archive/image/pic22.png)
 
 4.5.4 เมื่อทำการรัน dbt run ผ่าน → กลับไปหน้า google bigquery → จะมี table staging กับ view แสดงขึ้นมา
-
-![alt text](Archive/image/pic34.png)
 
 
 
@@ -461,7 +427,6 @@ $ dbt run
 * เปิด หน้า  Looker Studio → blank report เพื่อสร้าง dashboard
 
 
-![alt text](Archive/image/pic25.png)
 
 
 
@@ -469,20 +434,17 @@ $ dbt run
 * เลือก bigquery
 
 
-![alt text](Archive/image/pic26.png)
 
 
 * เลือก project “mycapstone” →  dataset “project_accident” → table “view” เลือก view เพื่อทำ Dashboard
 
 
-![alt text](Archive/image/pic27.png)
 
 
 * หน้าตาของ Dashboard
 
 
 
-![alt text](Archive/image/pic24.jpg)
 
 visualization [link](https://lookerstudio.google.com/reporting/d6e96e3c-c20d-4e2d-80ed-66db2802f6c7/page/M5kzD)
 
